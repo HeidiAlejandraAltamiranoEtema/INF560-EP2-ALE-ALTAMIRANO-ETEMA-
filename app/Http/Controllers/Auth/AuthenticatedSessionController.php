@@ -28,7 +28,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirección inteligente según el rol del usuario para evitar el error de 'dashboard'
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            return redirect()->intended(route('admin.reservas.index'));
+        } elseif ($user->hasRole('guia')) {
+            return redirect()->intended(route('guia.tours'));
+        }
+
+        return redirect()->intended(route('tours.index'));
     }
 
     /**
