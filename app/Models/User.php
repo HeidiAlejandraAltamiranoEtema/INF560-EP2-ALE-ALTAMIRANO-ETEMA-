@@ -31,4 +31,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function toursGuiados()
+{
+    return $this->hasMany(\App\Models\Tour::class, 'guia_id');
+}
+public function reservas()
+{
+    return $this->hasMany(\App\Models\Reserva::class, 'user_id');
+}
 }
